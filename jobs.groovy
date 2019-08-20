@@ -57,8 +57,14 @@ for(j in jobs) {
       }
     }
     steps {
-      shell('cat ./script.sh > output.txt')
-      shell('tar -cvf $BRANCH_NAME_dsl_script.tar.gz output.txt')
+      shell('cat ./script.sh > output.txt; tar -cvf $BRANCH_NAME\'_dsl_script.tar.gz\' output.txt')
+    }
+    publishers {
+      archiveArtifacts {
+        pattern('output.txt')
+        pattern('jobs.groovy')
+        onlyIfSuccessful()
+      }
     }
   }
 }
